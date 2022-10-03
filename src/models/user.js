@@ -1,6 +1,5 @@
 "use strict";
 const { Model } = require("sequelize");
-const { hashPassword } = require("../helpers/bcrypt");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -14,55 +13,85 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init(
     {
+      firstName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: "firstName is required",
+          notEmpty: "firstName is required",
+        },
+      },
+      lastName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: "lastName is required",
+          notEmpty: "lastName is required",
+        },
+      },
       username: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notNull: true,
-          notEmpty: true,
+          notNull: "username is required",
+          notEmpty: "username is required",
+        },
+      },
+      picture: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "default.png",
+        validate: {
+          notNull: "picture is required",
+          notEmpty: "picture is required",
         },
       },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notNull: true,
-          notEmpty: true,
-        },
-      },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notNull: true,
-          notEmpty: true,
-        },
-      },
-      picture: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notNull: true,
-          notEmpty: true,
+          notNull: "email is required",
+          notEmpty: "email is required",
+          isEmail: "email is not valid",
         },
       },
       phoneNumber: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notNull: true,
-          notEmpty: true,
+          notNull: "phoneNumber is required",
+          notEmpty: "phoneNumber is required",
+        },
+      },
+      address: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: "address is required",
+          notEmpty: "address is required",
+        },
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: "password is required",
+          notEmpty: "password is required",
+        },
+      },
+      role: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "user",
+        validate: {
+          notNull: "role is required",
+          notEmpty: "role is required",
         },
       },
     },
     {
       sequelize,
       modelName: "User",
-      hooks: {
-        beforeCreate(user) {
-          user.password = hashPassword(user.password);
-        },
-      },
     }
   );
   return User;

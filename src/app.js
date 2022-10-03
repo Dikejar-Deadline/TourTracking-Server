@@ -1,15 +1,28 @@
+require("dotenv").config();
 const express = require("express");
-const app = express();
 const cors = require("cors");
+const error = require("./middleware/error");
+const AuthRoute = require("./routes/AuthRoute");
+const { runSocketIO } = require("./helper/socketIO");
 
-const router = require("./routes/index.js");
-const errHandler = require("./middlewares/error.js");
+const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
-app.use(router);
-app.use(errHandler);
+app.get("/", (req, res, next) => {
+  res.json({
+    msg: "This is user and location service (2)",
+  });
+});
+app.use("/auth", AuthRoute);
+app.use(error);
 
-module.exports = app;
+const runApp = runSocketIO(app);
+
+module.exports = runApp;
