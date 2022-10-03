@@ -76,7 +76,10 @@ class RoomController {
     try {
       const UserId = +req.user.id;
       if (!UserId) throw { name: "MissingUserId" };
-      const room = await Room.findOne(UserId, {
+      const room = await Room.findAll({
+        where: {
+          UserId,
+        },
         include: [
           {
             model: Destination,

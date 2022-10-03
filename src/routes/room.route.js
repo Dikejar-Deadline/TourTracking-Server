@@ -6,7 +6,7 @@ roomRouter.get("/", RoomController.getRooms);
 roomRouter.post("/", RoomController.createRoom);
 roomRouter.get("/:id", RoomController.getRoomById);
 roomRouter.get("/destination/:DestinationId", RoomController.getRoomByDestinationId);
-roomRouter.get("/:UserId", RoomController.getRoomByUser);
+roomRouter.get("/user/:UserId", RoomController.getRoomByUser);
 roomRouter.put("/:id", RoomController.editRoom);
 roomRouter.delete("/:id", RoomController.deleteRoom);
 
