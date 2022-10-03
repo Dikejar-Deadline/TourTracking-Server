@@ -3,7 +3,7 @@ module.exports = (err, req, res, next) => {
   let message = err.message;
 
   switch (err.name) {
-    // User and auth
+    // auth
     case "MissingToken":
       status = 400;
       message = "Authorization token is required";
@@ -16,10 +16,6 @@ module.exports = (err, req, res, next) => {
       status = 400;
       message = "User id is required";
       break;
-    case "Unauthorized":
-      status = 401;
-      message = "Unauthorized";
-      break;
 
     // destionation
     case "RequiredDestinationId":
@@ -31,7 +27,7 @@ module.exports = (err, req, res, next) => {
       message = "Destination not found";
       break;
 
-    // Product
+    // Room
     case "RequiredRoomId":
       status = 400;
       message = "Room id is required";
@@ -41,6 +37,7 @@ module.exports = (err, req, res, next) => {
       message = "Room not found";
       break;
 
+    // validation
     case "SequelizeUniqueConstraintError":
     case "SequelizeValidationError":
       status = 400;
