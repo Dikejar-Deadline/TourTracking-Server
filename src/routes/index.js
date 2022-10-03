@@ -6,4 +6,4 @@ const router = require("express").Router();
 router.use("/rooms", roomRouter);
 router.use("/destinations", destinationRouter);
 
-module.exports = roomRouter;
+module.exports = router;

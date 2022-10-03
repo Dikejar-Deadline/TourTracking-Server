@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Destination.hasMany(models.Room, {
+        foreignKey: "DestinationId",
+      });
     }
   }
   Destination.init(
@@ -17,24 +20,42 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notNull: "name cannot be null",
-          notEmpty: "name cannot be empty",
+          notNull: {
+            args: true,
+            msg: "name cannot be null",
+          },
+          notEmpty: {
+            args: true,
+            msg: "name cannot be empty",
+          },
         },
       },
       description: {
         type: DataTypes.TEXT,
         allowNull: false,
         validate: {
-          notNull: "description cannot be null",
-          notEmpty: "description cannot be empty",
+          notNull: {
+            args: true,
+            msg: "description cannot be null",
+          },
+          notEmpty: {
+            args: true,
+            msg: "description cannot be empty",
+          },
         },
       },
       imgUrl: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notNull: "imgUrl cannot be null",
-          notEmpty: "imgUrl cannot be empty",
+          notNull: {
+            args: true,
+            msg: "image cannot be null",
+          },
+          notEmpty: {
+            args: true,
+            msg: "image cannot be empty",
+          },
         },
       },
     },
