@@ -13,22 +13,13 @@ const runSocketIO = (app) => {
   io.on("connection", (socket) => {
     console.log(`⚡: ${socket.id} user just connected!`);
 
-    socket.on("join", async ({ latitude, longitude, RoomId, UserId }) => {
+    socket.on("join", async ({ RoomId }) => {
       console.log("joining room: " + RoomId);
-      console.log(
-        `Coord: latitude: ${latitude} longitude: ${longitude}, user: ${UserId} in room ${RoomId}`
-      );
-      await Location.createOrUpdate({
-        latitude,
-        longitude,
-        RoomId,
-        UserId,
-      });
       socket.join(RoomId);
     });
 
     socket.on("coord", async ({ latitude, longitude, RoomId, UserId }) => {
-      console.log("retriving coords: " + RoomId);
+      console.log("retriving coords from: " + RoomId);
       console.log(
         `Coord: latitude: ${latitude} longitude: ${longitude}, user: ${UserId} in room ${RoomId}`
       );
