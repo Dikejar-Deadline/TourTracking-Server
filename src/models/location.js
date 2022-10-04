@@ -15,7 +15,6 @@ module.exports = (sequelize, DataTypes) => {
       try {
         const isExist = await this.findOne({
           where: {
-            RoomId,
             UserId,
           },
         });
@@ -34,20 +33,22 @@ module.exports = (sequelize, DataTypes) => {
     {
       latitude: {
         type: DataTypes.STRING,
-        validate: {
-          min: -90,
-          max: 90,
-        },
+        allowNull: false,
+        // validate: {
+        //   min: -90,
+        //   max: 90,
+        // },
       },
       longitude: {
-        type: DataTypes.INTEGER,
-        validate: {
-          min: -180,
-          max: 180,
-        },
+        type: DataTypes.STRING,
+        allowNull: false,
+        // validate: {
+        //   min: -180,
+        //   max: 180,
+        // },
       },
       UserId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         validate: {
           notEmpty: "UserId is required",
         },

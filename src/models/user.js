@@ -52,7 +52,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notNull: "email is required",
           notEmpty: "email is required",
-          isEmail: "email is not valid",
+          isEmail: { msg: "email is not valid" },
         },
       },
       phoneNumber: {

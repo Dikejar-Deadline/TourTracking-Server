@@ -47,11 +47,14 @@ class AuthController {
         lastName,
         username,
         email,
-        password: hashPassword(password),
+        password,
         phoneNumber,
         address,
       });
-      res.json({ user });
+      user.update({
+        password: hashPassword(password),
+      });
+      res.json(user);
     } catch (error) {
       next(error);
     }
@@ -101,7 +104,7 @@ class AuthController {
       );
     }
 
-    let access_token = generateToken({ id: result.id });
+    let access_token = createToken({ id: result.id });
 
     res.status(200).json({ result, access_token });
   }

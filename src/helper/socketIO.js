@@ -1,9 +1,7 @@
-const { createServer } = require("http");
 const { Server } = require("socket.io");
 const { Location } = require("./../models");
 
-const runSocketIO = (app) => {
-  const httpServer = createServer(app);
+const runSocketIO = (httpServer) => {
   const io = new Server(httpServer, {
     cors: {
       origin: "*",
@@ -19,30 +17,57 @@ const runSocketIO = (app) => {
     });
 
     socket.on("coord", async ({ latitude, longitude, RoomId, UserId }) => {
-      console.log("retriving coords from: " + RoomId);
-      console.log(
-        `Coord: latitude: ${latitude} longitude: ${longitude}, user: ${UserId} in room ${RoomId}`
-      );
-      await Location.createOrUpdate({
-        latitude,
-        longitude,
-        RoomId,
-        UserId,
-      });
-      const location = await Location.findAll({
-        where: {
-          RoomId,
-        },
-      });
-      io.to(RoomId).emit("location", location);
+      try {
+        console.log("retriving coords from: " + RoomId);
+        console.log(
+          `Coord: latitude: ${latitude} longitude: ${longitude}, user: ${UserId} in room ${RoomId}`
+        );
+        if (longitude && latitude && UserId && RoomId) {
+          await Location.destroy({
+            where: {
+              UserId,
+            },
+          });
+          await Location.create({
+            latitude: latitude.toString(),
+            longitude: longitude.toString(),
+            RoomId: RoomId.toString(),
+            UserId: UserId.toString(),
+          });
+          const location = await Location.findAll(
+            {
+              where: {
+                RoomId: RoomId.toString(),
+              },
+            },
+            {
+              attributes: { exclude: ["createdAt", "updatedAt"] },
+            }
+          );
+
+          io.to(RoomId).emit("location", location);
+        } else {
+          const location = await Location.findAll(
+            {
+              where: {
+                RoomId: RoomId.toString(),
+              },
+            },
+            {
+              attributes: { exclude: ["createdAt", "updatedAt"] },
+            }
+          );
+          io.to(RoomId).emit("location", location);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     });
 
     socket.on("disconnect", () => {
       console.log("🔥: A user disconnected");
     });
   });
-
-  return httpServer;
 };
 
 module.exports = { runSocketIO };
