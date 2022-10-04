@@ -18,10 +18,7 @@ const runSocketIO = (httpServer) => {
 
     socket.on("coord", async ({ latitude, longitude, RoomId, UserId }) => {
       try {
-        console.log("retriving coords from: " + RoomId);
-        console.log(
-          `Coord: latitude: ${latitude} longitude: ${longitude}, user: ${UserId} in room ${RoomId}`
-        );
+        console.log(latitude, longitude, UserId, RoomId);
         if (longitude && latitude && UserId && RoomId) {
           await Location.destroy({
             where: {
