@@ -3,7 +3,8 @@ const { authMiddleware, isAdmin } = require("../middlewares/auth");
 
 const destinationRouter = require("express").Router();
 
-destinationRouter.use(authMiddleware, isAdmin);
+// destinationRouter.use(authMiddleware);
+// destinationRouter.use(isAdmin);
 destinationRouter.get("/", DestinationController.getDestinations);
 destinationRouter.post("/", DestinationController.createDestination);
 destinationRouter.get("/:id", DestinationController.getDestinationById);

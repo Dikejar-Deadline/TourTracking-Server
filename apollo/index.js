@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { ApolloServer, gql } = require("apollo-server");
 const {
   loginAction,
@@ -22,7 +23,7 @@ const {
 } = require("./actions/destination");
 
 const typeDefs = gql`
-type User {
+  type User {
     id: String
     firstName: String
     lastName: String
@@ -83,16 +84,6 @@ type User {
   }
 
   type Query {
-  register(
-      firstName: String
-      lastName: String
-      picture: String
-      username: String
-      email: String
-      phoneNumber: String
-      address: String
-      password: String
-    ): User
     login(email: String, password: String): Auth
     getUser: User
     users: [User]
@@ -104,6 +95,16 @@ type User {
   }
 
   type Mutation {
+    register(
+      firstName: String
+      lastName: String
+      picture: String
+      username: String
+      email: String
+      phoneNumber: String
+      address: String
+      password: String
+    ): User
     createDestination(
       name: String
       description: String
@@ -125,7 +126,6 @@ type User {
       schedule: String
       dropPoint: String
       duration: Int
-      UserId: ID
       DestinationId: ID
     ): Room
     editRoom(
@@ -138,7 +138,6 @@ type User {
       schedule: String
       dropPoint: String
       duration: Int
-      UserId: ID
       DestinationId: ID
     ): Room
     deleteRoom(id: ID): Boolean
@@ -147,7 +146,6 @@ type User {
 
 const resolvers = {
   Query: {
-    register: registerAction,
     login: loginAction,
     getUser: getUser,
     users: getAllUser,
@@ -158,6 +156,7 @@ const resolvers = {
     roomByDestination: getRoomByDestination,
   },
   Mutation: {
+    register: registerAction,
     createDestination: createDestination,
     editDestination: updateDestinationId,
     deleteDestination: deleteDestionationId,

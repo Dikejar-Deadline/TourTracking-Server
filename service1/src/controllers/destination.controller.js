@@ -12,8 +12,12 @@ class DestinationController {
 
   static async createDestination(req, res, next) {
     try {
-      const form = ({ name, description, imgUrl } = req.body);
-      const destination = await Destination.create(form);
+      const { name, description, imgUrl } = req.body;
+      const destination = await Destination.create({
+        name,
+        description,
+        imgUrl,
+      });
       res.status(201).json(destination);
     } catch (error) {
       next(error);
@@ -40,9 +44,9 @@ class DestinationController {
       const destination = await Destination.findOne({ where: { id: id } });
       if (!destination) throw { name: "MissingDestination" };
 
-      const form = ({ name, description, imgUrl } = req.body);
-      destination.update(form);
-      res.status(200).json(form);
+      const { name, description, imgUrl } = req.body;
+      destination.update({ name, description, imgUrl });
+      res.status(200).json({ name, description, imgUrl });
     } catch (error) {
       next(error);
     }

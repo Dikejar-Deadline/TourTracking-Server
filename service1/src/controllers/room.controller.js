@@ -12,7 +12,7 @@ class RoomController {
 
   static async createRoom(req, res, next) {
     try {
-      const form = ({
+      const {
         price,
         accountNumber,
         accountName,
@@ -23,9 +23,17 @@ class RoomController {
         duration,
         status,
         DestinationId,
-      } = req.body);
+      } = req.body;
       const room = await Room.create({
-        ...form,
+        price,
+        accountNumber,
+        accountName,
+        maxParticipant,
+        minParticipant,
+        schedule,
+        dropPoint,
+        duration,
+        status,
         UserId: +req.user.id,
         DestinationId: +DestinationId,
       });
@@ -104,7 +112,7 @@ class RoomController {
       const room = await Room.findByPk(id);
       if (!room) throw { name: "MissingRoom" };
 
-      const form = ({
+      const {
         price,
         accountNumber,
         accountName,
@@ -115,14 +123,21 @@ class RoomController {
         duration,
         status,
         DestinationId,
-      } = req.body);
+      } = req.body;
       if (!DestinationId) throw { name: "RequiredDestinationId" };
       const destination = await Destination.findByPk(+DestinationId);
       if (!destination) throw { name: "MissingDestination" };
 
       room.update({
-        ...form,
-        UserId: +UserId,
+        price,
+        accountNumber,
+        accountName,
+        maxParticipant,
+        minParticipant,
+        schedule,
+        dropPoint,
+        duration,
+        status,
         DestinationId: +DestinationId,
       });
       res.status(200).json(room);
@@ -138,7 +153,7 @@ class RoomController {
       const room = await Room.findByPk(id);
       if (!room) throw { name: "MissingRoom" };
       room.destroy();
-      res.status(200).json(room);
+      res.status(200).json(true);
     } catch (error) {
       next(error);
     }

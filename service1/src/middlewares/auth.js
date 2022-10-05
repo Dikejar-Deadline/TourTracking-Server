@@ -1,10 +1,10 @@
-const { decodeToken } = require("../helpers/jwt");
+const { verifyToken } = require("../helpers/jwt");
 const { Room } = require("../models");
 
 const authMiddleware = async (req, res, next) => {
   try {
     if (!req.headers.authorization) throw { name: "MissingToken" };
-    const decoded = decodeToken(req.headers.authorization);
+    const decoded = verifyToken(req.headers.authorization);
     if (!decoded) throw { name: "InvalidToken" };
     const user = decoded;
     req.user = user;

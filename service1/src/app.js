@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const errorHandler = require("./middlewares/errorHandler.js");
 const app = express();

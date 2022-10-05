@@ -1,6 +1,6 @@
 const axios = require("axios");
 const { errorAxios } = require("../errorHandling/axiosError");
-const roomUrl = "https://2c56-203-78-114-49.ap.ngrok.io/rooms";
+const roomUrl = `${process.env.SERVICE1}/rooms`;
 
 const getAllRoom = async (_, args, context) => {
   try {

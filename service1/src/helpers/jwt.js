@@ -1,6 +1,13 @@
 const { sign, verify } = require("jsonwebtoken");
 
-module.exports = {
-  signToken: (payload) => sign(payload, process.env.JWT_SECRET),
-  decodeToken: (token) => verify(token, process.env.JWT_SECRET),
+const createToken = (user) => {
+  return {
+    access_token: sign(user, "toutracking", { expiresIn: 60 * 60 }),
+  };
 };
+
+const verifyToken = (token) => {
+  return verify(token, "toutracking");
+};
+
+module.exports = { createToken, verifyToken };

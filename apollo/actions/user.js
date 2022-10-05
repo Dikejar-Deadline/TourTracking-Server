@@ -1,6 +1,6 @@
 const axios = require("axios");
 const { errorAxios } = require("../errorHandling/axiosError");
-const userUrl = "http://localhost:5000/auth";
+const userUrl = `${process.env.SERVICE2}/auth`;
 
 const registerAction = async (_, args) => {
   try {
