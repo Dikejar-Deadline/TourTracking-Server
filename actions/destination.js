@@ -1,55 +1,66 @@
 const axios = require("axios");
+const { errorAxios } = require("../errorHandling/axiosError");
 const destinationUrl = "https://2c56-203-78-114-49.ap.ngrok.io/destinations";
 
-const getDestinations = async () => {
+const getDestinations = async (_, args, context) => {
   try {
-    const { data } = await axios.get(destinationUrl);
+    const { data } = await axios.get(destinationUrl, context.headers);
     return data;
   } catch (error) {
-    console.log(error);
+    console.log(errorAxios(error));
   }
 };
 
-const createDestination = async (_, args) => {
+const createDestination = async (_, args, context) => {
   try {
     const { name, description, imgUrl } = args;
-    const { data } = await axios.post(destinationUrl, {
-      name,
-      description,
-      imgUrl,
-    });
+    const { data } = await axios.post(
+      destinationUrl,
+      {
+        name,
+        description,
+        imgUrl,
+      },
+      context.headers
+    );
     return data;
   } catch (error) {
-    console.log(error);
+    console.log(errorAxios(error));
   }
 };
 
-const getDestionationId = async (_, { id }) => {
+const getDestionationId = async (_, { id }, context) => {
   try {
-    const { data } = await axios.get(destinationUrl + `/${id}`);
+    const { data } = await axios.get(
+      destinationUrl + `/${id}`,
+      context.headers
+    );
     return data;
   } catch (error) {
-    console.log(error);
+    console.log(errorAxios(error));
   }
 };
 
-const updateDestinationId = async (_, args) => {
+const updateDestinationId = async (_, args, context) => {
   try {
     const form = ({ name, description, imgUrl } = args);
-    const { data } = await axios.put(destinationUrl + `/${args.id}`, form);
-    console.log(data);
+    const { data } = await axios.put(
+      destinationUrl + `/${args.id}`,
+      form,
+      context.headers
+    );
     return data;
   } catch (error) {
-    console.log(error);
+    console.log(errorAxios(error));
   }
 };
 
-const deleteDestionationId = async (_, { id }) => {
+const deleteDestionationId = async (_, { id }, context) => {
   try {
-    await axios.delete(destinationUrl + `/${id}`);
+    await axios.delete(destinationUrl + `/${id}`, context.headers);
     return true;
   } catch (error) {
-    console.log(error);
+    console.log(errorAxios(error));
   }
 };
 

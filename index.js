@@ -1,5 +1,10 @@
 const { ApolloServer, gql } = require("apollo-server");
-
+const {
+  loginAction,
+  registerAction,
+  getAllUser,
+  getUser,
+} = require("./actions/user");
 const {
   getAllRoom,
   getRoomDetail,
@@ -8,7 +13,6 @@ const {
   editRoom,
   deleteRoom,
 } = require("./actions/room");
-
 const {
   getDestinations,
   createDestination,
@@ -18,6 +22,22 @@ const {
 } = require("./actions/destination");
 
 const typeDefs = gql`
+type User {
+    id: String
+    firstName: String
+    lastName: String
+    picture: String
+    username: String
+    email: String
+    phoneNumber: String
+    address: String
+    role: String
+  }
+
+  type Auth {
+    access_token: String
+  }
+
   type Destination {
     id: ID
     name: String
@@ -63,6 +83,19 @@ const typeDefs = gql`
   }
 
   type Query {
+  register(
+      firstName: String
+      lastName: String
+      picture: String
+      username: String
+      email: String
+      phoneNumber: String
+      address: String
+      password: String
+    ): User
+    login(email: String, password: String): Auth
+    getUser: User
+    users: [User]
     destinations: [Destination]
     destinationId(id: ID): Destination
     rooms: [Room]
@@ -114,6 +147,10 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
+    register: registerAction,
+    login: loginAction,
+    getUser: getUser,
+    users: getAllUser,
     destinations: getDestinations,
     destinationId: getDestionationId,
     rooms: getAllRoom,
@@ -133,14 +170,25 @@ const resolvers = {
 const {
   ApolloServerPluginLandingPageLocalDefault,
 } = require("apollo-server-core");
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   csrfPrevention: true,
   cache: "bounded",
+  context: ({ req }) => {
+    const token = req.headers.authorization || "";
+    return {
+      headers: {
+        headers: {
+          Authorization: token,
+        },
+      },
+    };
+  },
   plugins: [ApolloServerPluginLandingPageLocalDefault({ embed: true })],
 });
 
 server.listen().then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`);
+  console.log(`🚀 Apollo Server ready at ${url}`);
 });

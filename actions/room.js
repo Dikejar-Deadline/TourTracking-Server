@@ -1,38 +1,42 @@
 const axios = require("axios");
+const { errorAxios } = require("../errorHandling/axiosError");
 const roomUrl = "https://2c56-203-78-114-49.ap.ngrok.io/rooms";
 
-const getAllRoom = async () => {
+const getAllRoom = async (_, args, context) => {
   try {
-    const { data } = await axios.get(roomUrl);
+    const { data } = await axios.get(roomUrl, context.headers);
     return data;
   } catch (error) {
-    console.log(error);
+    console.log(errorAxios(error));
   }
 };
 
-const getRoomDetail = async (_, args) => {
+const getRoomDetail = async (_, args, context) => {
   try {
     const { id } = args;
-    const { data } = await axios.get(`${roomUrl}/${id}`);
+    const { data } = await axios.get(`${roomUrl}/${id}`, context.headers);
     return data;
   } catch (error) {
-    console.log(error);
+    console.log(errorAxios(error));
   }
 };
 
-const getRoomByDestination = async (_, args) => {
+const getRoomByDestination = async (_, args, context) => {
   try {
     const { id } = args;
-    const { data } = await axios.get(`${roomUrl}/destination/${id}`);
+    const { data } = await axios.get(
+      `${roomUrl}/destination/${id}`,
+      context.headers
+    );
     return data;
   } catch (error) {
-    console.log(error);
+    console.log(errorAxios(error));
   }
 };
 
-const createRoom = async (_, args) => {
+const createRoom = async (_, args, context) => {
   try {
-    const {
+    const form = ({
       price,
       accountNumber,
       accountName,
@@ -43,28 +47,25 @@ const createRoom = async (_, args) => {
       duration,
       UserId,
       DestinationId,
-    } = args;
-    const { data } = await axios.post(roomUrl, {
-      price,
-      accountNumber,
-      accountName,
-      maxParticipant,
-      minParticipant,
-      schedule,
-      dropPoint,
-      duration,
-      UserId: +UserId,
-      DestinationId: +DestinationId,
-    });
+    } = args);
+    const { data } = await axios.post(
+      roomUrl,
+      {
+        ...form,
+        UserId: +UserId,
+        DestinationId: +DestinationId,
+      },
+      context.headers
+    );
     return data;
   } catch (error) {
-    console.log(error);
+    console.log(errorAxios(error));
   }
 };
 
-const editRoom = async (_, args) => {
+const editRoom = async (_, args, context) => {
   try {
-    const {
+    const form = ({
       id,
       price,
       accountNumber,
@@ -76,33 +77,29 @@ const editRoom = async (_, args) => {
       duration,
       UserId,
       DestinationId,
-    } = args;
-    const { data } = await axios.put(`${roomUrl}/${id}`, {
-      id,
-      price,
-      accountNumber,
-      accountName,
-      maxParticipant,
-      minParticipant,
-      schedule,
-      dropPoint,
-      duration,
-      UserId: +UserId,
-      DestinationId: +DestinationId,
-    });
+    } = args);
+    const { data } = await axios.put(
+      `${roomUrl}/${id}`,
+      {
+        ...form,
+        UserId: +UserId,
+        DestinationId: +DestinationId,
+      },
+      context.headers
+    );
     return data;
   } catch (error) {
-    console.log(error);
+    console.log(errorAxios(error));
   }
 };
 
-const deleteRoom = async (_, args) => {
+const deleteRoom = async (_, args, context) => {
   try {
     const { id } = args;
-    const { data } = await axios.delete(`${roomUrl}/${id}`);
+    const { data } = await axios.delete(`${roomUrl}/${id}`, context.headers);
     return data;
   } catch (error) {
-    console.log(error);
+    console.log(errorAxios(error));
   }
 };
 
