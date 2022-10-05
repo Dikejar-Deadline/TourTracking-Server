@@ -1,8 +1,8 @@
-const { default: axios, AxiosError } = require("axios");
+const axios = require("axios");
 const { errorAxios } = require("../errorHandling/axiosError");
-const userUrl = "http://localhost:4000";
+const userUrl = "http://localhost:5000/auth";
 
-const registerAction = async (_, { args }) => {
+const registerAction = async (_, args) => {
   try {
     const form = ({
       firstName,
@@ -16,7 +16,7 @@ const registerAction = async (_, { args }) => {
       role,
     } = args);
     const { data } = await axios.post(userUrl + "/register", form);
-    return true;
+    return data;
   } catch (error) {
     console.log(errorAxios(error));
   }

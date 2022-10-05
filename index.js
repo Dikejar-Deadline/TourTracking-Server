@@ -16,7 +16,6 @@ const typeDefs = gql`
     email: String
     phoneNumber: String
     address: String
-    password: String
     role: String
   }
 
@@ -34,7 +33,6 @@ const typeDefs = gql`
       phoneNumber: String
       address: String
       password: String
-      role: String
     ): User
     login(email: String, password: String): Auth
     getUser: User
