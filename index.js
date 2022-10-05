@@ -1,14 +1,22 @@
 const { ApolloServer, gql } = require("apollo-server");
-const { getAllUser, loginAction } = require("./actions/user");
+const {
+  loginAction,
+  registerAction,
+  getAllUser,
+  getUser,
+} = require("./actions/user");
 
 const typeDefs = gql`
   type User {
-    _id: String
+    id: String
+    firstName: String
+    lastName: String
+    picture: String
     username: String
     email: String
-    password: String
     phoneNumber: String
     address: String
+    password: String
     role: String
   }
 
@@ -17,19 +25,30 @@ const typeDefs = gql`
   }
 
   type Query {
-    user: [User]
+    register(
+      firstName: String
+      lastName: String
+      picture: String
+      username: String
+      email: String
+      phoneNumber: String
+      address: String
+      password: String
+      role: String
+    ): User
     login(email: String, password: String): Auth
+    getUser: User
+    users: [User]
   }
-
-  type Mutation {}
 `;
 
 const resolvers = {
   Query: {
-    user: getAllUser,
+    register: registerAction,
     login: loginAction,
+    getUser: getUser,
+    users: getAllUser,
   },
-  Mutation: {},
 };
 
 const {

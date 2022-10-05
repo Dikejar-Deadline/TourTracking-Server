@@ -5,15 +5,17 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --watch app.js"
+    "dev": "nodemon --watch index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "apollo-server": "^3.10.2",
-    "axios": "^0.27.2",
-    "graphql": "^16.6.0",
+    "axios": "^1.0.0",
+    "graphql": "^16.6.0"
+  },
+  "devDependencies": {
     "nodemon": "^2.0.20"
   }
 }

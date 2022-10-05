@@ -2,10 +2,21 @@ const { default: axios, AxiosError } = require("axios");
 const { errorAxios } = require("../errorHandling/axiosError");
 const userUrl = "http://localhost:4000";
 
-const getAllUser = async (_, args, context) => {
+const registerAction = async (_, { args }) => {
   try {
-    const { data } = await axios.get(userUrl + "/user", context.headers);
-    return data;
+    const form = ({
+      firstName,
+      lastName,
+      picture,
+      username,
+      email,
+      phoneNumber,
+      address,
+      password,
+      role,
+    } = args);
+    const { data } = await axios.post(userUrl + "/register", form);
+    return true;
   } catch (error) {
     console.log(errorAxios(error));
   }
@@ -20,4 +31,22 @@ const loginAction = async (_, { email, password }) => {
   }
 };
 
-module.exports = { userUrl, getAllUser, loginAction };
+const getUser = async (_, args, context) => {
+  try {
+    const { data } = await axios.get(userUrl + "/by-token", context.headers);
+    return data;
+  } catch (error) {
+    console.log(errorAxios(error));
+  }
+};
+
+const getAllUser = async (_, args, context) => {
+  try {
+    const { data } = await axios.get(userUrl + "/user", context.headers);
+    return data;
+  } catch (error) {
+    console.log(errorAxios(error));
+  }
+};
+
+module.exports = { loginAction, registerAction, getUser, getAllUser };
