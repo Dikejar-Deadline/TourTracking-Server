@@ -59,7 +59,7 @@ class DestinationController {
       if (!destination) throw { name: "MissingDestination" };
 
       destination.destroy();
-      res.status(200).json({ message: `success delete destination with id ${id}` });
+      res.status(200).json(destination);
     } catch (error) {
       next(error);
     }
