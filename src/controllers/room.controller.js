@@ -4,6 +4,7 @@ class RoomController {
   static async getRooms(req, res, next) {
     try {
       const room = await Room.findAll();
+      console.log(room);
       res.status(200).json(room);
     } catch (error) {
       next(error);
