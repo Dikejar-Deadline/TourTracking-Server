@@ -4,7 +4,6 @@ class RoomController {
   static async getRooms(req, res, next) {
     try {
       const room = await Room.findAll();
-      console.log(room);
       res.status(200).json(room);
     } catch (error) {
       next(error);
@@ -12,10 +11,8 @@ class RoomController {
   }
 
   static async createRoom(req, res, next) {
-    console.log(req.body);
     try {
-      let { price, accountNumber, accountName, maxParticipant, minParticipant, schedule, dropPoint, duration, status, UserId, DestinationId } = req.body;
-      let input = {
+      const form = ({
         price,
         accountNumber,
         accountName,
@@ -25,10 +22,13 @@ class RoomController {
         dropPoint,
         duration,
         status,
-        UserId: +UserId,
+        DestinationId,
+      } = req.body);
+      const room = await Room.create({
+        ...form,
+        UserId: +req.user.id,
         DestinationId: +DestinationId,
-      };
-      const room = await Room.create(input);
+      });
       res.status(201).json(room);
     } catch (error) {
       next(error);
@@ -104,12 +104,7 @@ class RoomController {
       const room = await Room.findByPk(id);
       if (!room) throw { name: "MissingRoom" };
 
-      let { price, accountNumber, accountName, maxParticipant, minParticipant, schedule, dropPoint, duration, status, UserId, DestinationId } = req.body;
-      if (!DestinationId) throw { name: "RequiredDestinationId" };
-      const destination = await Destination.findByPk(+DestinationId);
-      if (!destination) throw { name: "MissingDestination" };
-
-      let input = {
+      const form = ({
         price,
         accountNumber,
         accountName,
@@ -119,11 +114,17 @@ class RoomController {
         dropPoint,
         duration,
         status,
+        DestinationId,
+      } = req.body);
+      if (!DestinationId) throw { name: "RequiredDestinationId" };
+      const destination = await Destination.findByPk(+DestinationId);
+      if (!destination) throw { name: "MissingDestination" };
+
+      room.update({
+        ...form,
         UserId: +UserId,
         DestinationId: +DestinationId,
-      };
-
-      room.update(input);
+      });
       res.status(200).json(room);
     } catch (error) {
       next(error);

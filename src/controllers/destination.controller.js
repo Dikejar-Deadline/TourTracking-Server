@@ -12,10 +12,8 @@ class DestinationController {
 
   static async createDestination(req, res, next) {
     try {
-      let { name, description, imgUrl } = req.body;
-
-      let input = { name, description, imgUrl };
-      const destination = await Destination.create(input);
+      const form = ({ name, description, imgUrl } = req.body);
+      const destination = await Destination.create(form);
       res.status(201).json(destination);
     } catch (error) {
       next(error);
@@ -26,6 +24,7 @@ class DestinationController {
     try {
       const id = +req.params.id;
       if (!id) throw { name: "RequiredDestinationId" };
+
       const destination = await Destination.findByPk(id);
       res.status(200).json(destination);
     } catch (error) {
@@ -41,10 +40,9 @@ class DestinationController {
       const destination = await Destination.findOne({ where: { id: id } });
       if (!destination) throw { name: "MissingDestination" };
 
-      let { name, description, imgUrl } = req.body;
-      let input = { name, description, imgUrl };
-      destination.update(input);
-      res.status(200).json(input);
+      const form = ({ name, description, imgUrl } = req.body);
+      destination.update(form);
+      res.status(200).json(form);
     } catch (error) {
       next(error);
     }
@@ -59,7 +57,7 @@ class DestinationController {
       if (!destination) throw { name: "MissingDestination" };
 
       destination.destroy();
-      res.status(200).json(destination);
+      res.status(200).json(true);
     } catch (error) {
       next(error);
     }
