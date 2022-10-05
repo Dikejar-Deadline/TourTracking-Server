@@ -1,14 +1,8 @@
 const { ApolloServer, gql } = require("apollo-server");
 
-const {
-  getAllRoom,
-  getRoomDetail,
-  getDestinations,
-  getRoomByDestination,
-  createRoom,
-  editRoom,
-  deleteRoom,
-} = require("./actions/room");
+const { getAllRoom, getRoomDetail, getRoomByDestination, createRoom, editRoom, deleteRoom } = require("./actions/room");
+
+const { getDestinations, createDestination } = require("./actions/destination");
 
 const typeDefs = gql`
   type Destination {
@@ -52,6 +46,12 @@ const typeDefs = gql`
     room: [Room]
   }
 
+  type FormDestination {
+    name: String
+    description: String
+    imgUrl: String
+  }
+
   type RoomForm {
     price: Int
     accountNumber: Int
@@ -73,32 +73,11 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    createRoom(
-      price: Int
-      accountNumber: Int
-      accountName: String
-      maxParticipant: Int
-      minParticipant: Int
-      schedule: String
-      dropPoint: String
-      duration: Int
-      UserId: ID
-      DestinationId: ID
-    ): RoomForm
+    createDestination(name: String, description: String, imgUrl: String): FormDestination
 
-    editRoom(
-      id: ID
-      price: Int
-      accountNumber: Int
-      accountName: String
-      maxParticipant: Int
-      minParticipant: Int
-      schedule: String
-      dropPoint: String
-      duration: Int
-      UserId: ID
-      DestinationId: ID
-    ): RoomForm
+    createRoom(price: Int, accountNumber: Int, accountName: String, maxParticipant: Int, minParticipant: Int, schedule: String, dropPoint: String, duration: Int, UserId: ID, DestinationId: ID): RoomForm
+
+    editRoom(id: ID, price: Int, accountNumber: Int, accountName: String, maxParticipant: Int, minParticipant: Int, schedule: String, dropPoint: String, duration: Int, UserId: ID, DestinationId: ID): RoomForm
 
     deleteRoom(id: ID): Boolean
   }
@@ -115,12 +94,11 @@ const resolvers = {
     createRoom: createRoom,
     editRoom: editRoom,
     deleteRoom: deleteRoom,
+    createDestination: createDestination,
   },
 };
 
-const {
-  ApolloServerPluginLandingPageLocalDefault,
-} = require("apollo-server-core");
+const { ApolloServerPluginLandingPageLocalDefault } = require("apollo-server-core");
 const server = new ApolloServer({
   typeDefs,
   resolvers,

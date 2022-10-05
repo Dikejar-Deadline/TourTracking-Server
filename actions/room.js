@@ -1,15 +1,5 @@
 const axios = require("axios");
 const roomUrl = "http://localhost:3000/rooms";
-const destinationUrl = "http://localhost:3000/destinations";
-
-const getDestinations = async () => {
-  try {
-    const { data } = await axios.get(destinationUrl);
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 const getAllRoom = async () => {
   try {
@@ -94,7 +84,6 @@ const deleteRoom = async (_, args) => {
 };
 
 module.exports = {
-  getDestinations,
   getAllRoom,
   getRoomDetail,
   getRoomByDestination,
