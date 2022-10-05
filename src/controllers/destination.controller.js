@@ -44,7 +44,7 @@ class DestinationController {
       let { name, description, imgUrl } = req.body;
       let input = { name, description, imgUrl };
       destination.update(input);
-      res.status(200).json({ message: `success update destination with id ${id}` });
+      res.status(200).json(input);
     } catch (error) {
       next(error);
     }
@@ -59,7 +59,7 @@ class DestinationController {
       if (!destination) throw { name: "MissingDestination" };
 
       destination.destroy();
-      res.status(200).json({ message: `success delete destination with id ${id}` });
+      res.status(200).json(destination);
     } catch (error) {
       next(error);
     }
