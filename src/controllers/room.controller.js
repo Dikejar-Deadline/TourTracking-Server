@@ -137,7 +137,7 @@ class RoomController {
       const room = await Room.findByPk(id);
       if (!room) throw { name: "MissingRoom" };
       room.destroy();
-      res.status(200).json({ message: `success delete room with id ${id}` });
+      res.status(200).json(room);
     } catch (error) {
       next(error);
     }
