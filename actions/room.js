@@ -1,5 +1,5 @@
 const axios = require("axios");
-const roomUrl = "http://localhost:3000/rooms";
+const roomUrl = "https://2c56-203-78-114-49.ap.ngrok.io/rooms";
 
 const getAllRoom = async () => {
   try {
@@ -32,7 +32,18 @@ const getRoomByDestination = async (_, args) => {
 
 const createRoom = async (_, args) => {
   try {
-    const { price, accountNumber, accountName, maxParticipant, minParticipant, schedule, dropPoint, duration, UserId, DestinationId } = args;
+    const {
+      price,
+      accountNumber,
+      accountName,
+      maxParticipant,
+      minParticipant,
+      schedule,
+      dropPoint,
+      duration,
+      UserId,
+      DestinationId,
+    } = args;
     const { data } = await axios.post(roomUrl, {
       price,
       accountNumber,
@@ -53,7 +64,19 @@ const createRoom = async (_, args) => {
 
 const editRoom = async (_, args) => {
   try {
-    const { id, price, accountNumber, accountName, maxParticipant, minParticipant, schedule, dropPoint, duration, UserId, DestinationId } = args;
+    const {
+      id,
+      price,
+      accountNumber,
+      accountName,
+      maxParticipant,
+      minParticipant,
+      schedule,
+      dropPoint,
+      duration,
+      UserId,
+      DestinationId,
+    } = args;
     const { data } = await axios.put(`${roomUrl}/${id}`, {
       id,
       price,

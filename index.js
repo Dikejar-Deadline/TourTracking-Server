@@ -1,8 +1,21 @@
 const { ApolloServer, gql } = require("apollo-server");
 
-const { getAllRoom, getRoomDetail, getRoomByDestination, createRoom, editRoom, deleteRoom } = require("./actions/room");
+const {
+  getAllRoom,
+  getRoomDetail,
+  getRoomByDestination,
+  createRoom,
+  editRoom,
+  deleteRoom,
+} = require("./actions/room");
 
-const { getDestinations, createDestination } = require("./actions/destination");
+const {
+  getDestinations,
+  createDestination,
+  getDestionationId,
+  deleteDestionationId,
+  updateDestinationId,
+} = require("./actions/destination");
 
 const typeDefs = gql`
   type Destination {
@@ -38,67 +51,88 @@ const typeDefs = gql`
     duration: Int
     UserId: ID
     DestinationId: ID
-    destination: Destination
+    Destination: Destination
   }
 
   type RoomByDestination {
-    destination: [Destination]
-    room: [Room]
-  }
-
-  type FormDestination {
+    id: ID
     name: String
     description: String
     imgUrl: String
-  }
-
-  type RoomForm {
-    price: Int
-    accountNumber: Int
-    accountName: String
-    maxParticipant: Int
-    minParticipant: Int
-    schedule: String
-    dropPoint: String
-    duration: Int
-    UserId: ID
-    DestinationId: ID
+    Rooms: [Room]
   }
 
   type Query {
     destinations: [Destination]
+    destinationId(id: ID): Destination
     rooms: [Room]
     roomById(id: ID!): RoomDetail
     roomByDestination(id: ID!): RoomByDestination
   }
 
   type Mutation {
-    createDestination(name: String, description: String, imgUrl: String): FormDestination
-
-    createRoom(price: Int, accountNumber: Int, accountName: String, maxParticipant: Int, minParticipant: Int, schedule: String, dropPoint: String, duration: Int, UserId: ID, DestinationId: ID): RoomForm
-
-    editRoom(id: ID, price: Int, accountNumber: Int, accountName: String, maxParticipant: Int, minParticipant: Int, schedule: String, dropPoint: String, duration: Int, UserId: ID, DestinationId: ID): RoomForm
-
+    createDestination(
+      name: String
+      description: String
+      imgUrl: String
+    ): Destination
+    editDestination(
+      id: ID
+      name: String
+      description: String
+      imgUrl: String
+    ): Destination
+    deleteDestination(id: ID): Boolean
+    createRoom(
+      price: Int
+      accountNumber: Int
+      accountName: String
+      maxParticipant: Int
+      minParticipant: Int
+      schedule: String
+      dropPoint: String
+      duration: Int
+      UserId: ID
+      DestinationId: ID
+    ): Room
+    editRoom(
+      id: ID
+      price: Int
+      accountNumber: Int
+      accountName: String
+      maxParticipant: Int
+      minParticipant: Int
+      schedule: String
+      dropPoint: String
+      duration: Int
+      UserId: ID
+      DestinationId: ID
+    ): Room
     deleteRoom(id: ID): Boolean
   }
 `;
 
 const resolvers = {
   Query: {
+    destinations: getDestinations,
+    destinationId: getDestionationId,
     rooms: getAllRoom,
     roomById: getRoomDetail,
-    destinations: getDestinations,
     roomByDestination: getRoomByDestination,
   },
   Mutation: {
+    createDestination: createDestination,
+    editDestination: updateDestinationId,
+    deleteDestination: deleteDestionationId,
     createRoom: createRoom,
     editRoom: editRoom,
     deleteRoom: deleteRoom,
-    createDestination: createDestination,
   },
 };
 
-const { ApolloServerPluginLandingPageLocalDefault } = require("apollo-server-core");
+const {
+  ApolloServerPluginLandingPageLocalDefault,
+} = require("apollo-server-core");
 const server = new ApolloServer({
   typeDefs,
   resolvers,
