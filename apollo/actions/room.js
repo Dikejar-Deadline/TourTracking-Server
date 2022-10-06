@@ -17,7 +17,7 @@ const getRoomDetail = async (_, args, context) => {
   try {
     const { id } = args;
     const { data } = await axios.get(`${roomUrl}/${id}`, context.headers);
-    const participants = data.Participants;
+    const participants = data?.Participants;
     if (participants.length > 0) {
       const { data: participantById } = await axios.post(
         `${userUrl}/auth/participant`,
