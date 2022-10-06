@@ -8,6 +8,7 @@ const getDestinations = async (_, args, context) => {
     return data;
   } catch (error) {
     console.log(errorAxios(error));
+    throw new Error(errorAxios(error).data.message);
   }
 };
 
@@ -26,6 +27,7 @@ const createDestination = async (_, args, context) => {
     return data;
   } catch (error) {
     console.log(errorAxios(error));
+    throw new Error(errorAxios(error).data.message);
   }
 };
 
@@ -38,6 +40,7 @@ const getDestionationId = async (_, { id }, context) => {
     return data;
   } catch (error) {
     console.log(errorAxios(error));
+    throw new Error(errorAxios(error).data.message);
   }
 };
 
@@ -52,6 +55,7 @@ const updateDestinationId = async (_, args, context) => {
     return data;
   } catch (error) {
     console.log(errorAxios(error));
+    throw new Error(errorAxios(error).data.message);
   }
 };
 
@@ -61,6 +65,7 @@ const deleteDestionationId = async (_, { id }, context) => {
     return true;
   } catch (error) {
     console.log(errorAxios(error));
+    throw new Error(errorAxios(error).data.message);
   }
 };
 

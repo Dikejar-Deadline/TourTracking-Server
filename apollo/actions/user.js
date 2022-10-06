@@ -19,6 +19,7 @@ const registerAction = async (_, args) => {
     return data;
   } catch (error) {
     console.log(errorAxios(error));
+    throw new Error(errorAxios(error).data.message);
   }
 };
 
@@ -28,6 +29,7 @@ const loginAction = async (_, { email, password }) => {
     return { access_token: data.access_token };
   } catch (error) {
     console.log(errorAxios(error));
+    throw new Error(errorAxios(error).data.message);
   }
 };
 
@@ -37,6 +39,7 @@ const getUser = async (_, args, context) => {
     return data;
   } catch (error) {
     console.log(errorAxios(error));
+    throw new Error(errorAxios(error).data.message);
   }
 };
 
@@ -46,6 +49,7 @@ const getAllUser = async (_, args, context) => {
     return data;
   } catch (error) {
     console.log(errorAxios(error));
+    throw new Error(errorAxios(error).data.message);
   }
 };
 

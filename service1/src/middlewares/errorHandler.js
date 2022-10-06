@@ -32,6 +32,10 @@ module.exports = (err, req, res, next) => {
       status = 400;
       message = "Room id is required";
       break;
+    case "AlreadyJoin":
+      status = 400;
+      message = "Already join another room";
+      break;
     case "MissingRoom":
       status = 404;
       message = "Room not found";

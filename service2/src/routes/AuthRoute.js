@@ -6,8 +6,11 @@ const AuthRoute = require("express").Router();
 
 AuthRoute.post("/register", AuthController.register);
 AuthRoute.post("/login", AuthController.login);
-AuthRoute.get("/by-token", authMiddleware, AuthController.byToken);
-AuthRoute.get("/user", authMiddleware, isAdmin, AuthController.index);
+AuthRoute.post("/participant", AuthController.participant);
+AuthRoute.use(authMiddleware);
+AuthRoute.get("/by-token", AuthController.byToken);
+AuthRoute.use(isAdmin);
+AuthRoute.get("/user", AuthController.index);
 AuthRoute.get("/location", async (req, res, next) => {
   await Location.destroy({
     where: {

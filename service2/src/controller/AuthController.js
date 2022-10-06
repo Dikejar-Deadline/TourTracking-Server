@@ -1,6 +1,7 @@
 const { hashPassword, comparePassword } = require("./../helper/bcrypt");
 const { createToken } = require("../helper/jwt");
 const { User } = require("./../models");
+const { Op } = require("sequelize");
 
 class AuthController {
   static async index(req, res, next) {
@@ -14,9 +15,7 @@ class AuthController {
 
   static async byToken(req, res, next) {
     try {
-      const user = await User.findByPk(+req.user.id, {
-        // attributes: { exclude: ["password"] },
-      });
+      const user = await User.findByPk(+req.user.id);
       res.json(user);
     } catch (error) {
       next(error);
@@ -77,6 +76,23 @@ class AuthController {
       res.json(
         createToken({ id: user.id, email: user.email, role: user.role })
       );
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async participant(req, res, next) {
+    try {
+      const { participantId } = req.body;
+      const participants = await User.findAll({
+        where: {
+          id: {
+            [Op.or]: participantId,
+          },
+        },
+        attributes: ["id", "picture", "username"],
+      });
+      res.json(participants);
     } catch (error) {
       next(error);
     }

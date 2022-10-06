@@ -13,6 +13,7 @@ const {
   createRoom,
   editRoom,
   deleteRoom,
+  joinRoom,
 } = require("./actions/room");
 const {
   getDestinations,
@@ -58,6 +59,13 @@ const typeDefs = gql`
     duration: Int
     UserId: ID
     DestinationId: ID
+    Destination: Destination
+  }
+
+  type Participant {
+    id: ID
+    picture: String
+    username: String
   }
 
   type RoomDetail {
@@ -73,6 +81,7 @@ const typeDefs = gql`
     UserId: ID
     DestinationId: ID
     Destination: Destination
+    Participants: [Participant]
   }
 
   type RoomByDestination {
@@ -84,11 +93,11 @@ const typeDefs = gql`
   }
 
   type Query {
-    login(email: String, password: String): Auth
+    login(email: String!, password: String!): Auth
     getUser: User
     users: [User]
     destinations: [Destination]
-    destinationId(id: ID): Destination
+    destinationId(id: ID!): Destination
     rooms: [Room]
     roomById(id: ID!): RoomDetail
     roomByDestination(id: ID!): RoomByDestination
@@ -116,7 +125,7 @@ const typeDefs = gql`
       description: String
       imgUrl: String
     ): Destination
-    deleteDestination(id: ID): Boolean
+    deleteDestination(id: ID!): Boolean
     createRoom(
       price: Int
       accountNumber: Int
@@ -141,6 +150,7 @@ const typeDefs = gql`
       DestinationId: ID
     ): Room
     deleteRoom(id: ID): Boolean
+    joinRoom(id: ID!): Boolean
   }
 `;
 
@@ -163,6 +173,7 @@ const resolvers = {
     createRoom: createRoom,
     editRoom: editRoom,
     deleteRoom: deleteRoom,
+    joinRoom: joinRoom,
   },
 };
 

@@ -1,9 +1,18 @@
-const { Room, Destination } = require("../models");
+const { Room, Destination, Participant } = require("../models");
 
 class RoomController {
   static async getRooms(req, res, next) {
     try {
-      const room = await Room.findAll();
+      const room = await Room.findAll({
+        include: [
+          {
+            model: Destination,
+            attributes: {
+              exclude: ["createdAt", "updatedAt"],
+            },
+          },
+        ],
+      });
       res.status(200).json(room);
     } catch (error) {
       next(error);
@@ -55,6 +64,12 @@ class RoomController {
               exclude: ["createdAt", "updatedAt"],
             },
           },
+          {
+            model: Participant,
+            attributes: {
+              exclude: ["createdAt", "updatedAt"],
+            },
+          },
         ],
       });
       res.status(200).json(room);
@@ -71,6 +86,14 @@ class RoomController {
         include: [
           {
             model: Room,
+            include: [
+              {
+                model: Participant,
+                attributes: {
+                  exclude: ["createdAt", "updatedAt"],
+                },
+              },
+            ],
           },
         ],
       });
@@ -154,6 +177,26 @@ class RoomController {
       if (!room) throw { name: "MissingRoom" };
       room.destroy();
       res.status(200).json(true);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async joinRoom(req, res, next) {
+    try {
+      const UserId = +req.user.id;
+      const RoomId = +req.params.id;
+      const alreadyJoin = await Participant.findAll({
+        where: {
+          UserId,
+        },
+      });
+      if (alreadyJoin.length > 0) throw { name: "AlreadyJoin" };
+      await Participant.create({
+        UserId,
+        RoomId,
+      });
+      res.json(true);
     } catch (error) {
       next(error);
     }
