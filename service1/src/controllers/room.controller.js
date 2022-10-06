@@ -1,4 +1,11 @@
-const { Payment, Room, Destination, Participant, sequelize } = require("../models");
+const midtransClient = require("midtrans-client");
+const {
+  Payment,
+  Room,
+  Destination,
+  Participant,
+  sequelize,
+} = require("../models");
 
 class RoomController {
   static async getRooms(req, res, next) {
@@ -23,29 +30,28 @@ class RoomController {
     let snap = new midtransClient.Snap({
       isProduction: false,
       serverKey: process.env.SECRETS_SERVER,
-      clientKey: process.env.SECRETS_CLIENT
+      clientKey: process.env.SECRETS_CLIENT,
     });
     let parameter = {
-      "transaction_details": {
-        "order_id": "order-id-node-" + Math.round((new Date()).getTime() / 1000),
-        "gross_amount": 200000
-      }, "credit_card": {
-        "secure": true
-      }
+      transaction_details: {
+        order_id: "order-id-node-" + Math.round(new Date().getTime() / 1000),
+        gross_amount: 200000,
+      },
+      credit_card: {
+        secure: true,
+      },
     };
     // create snap transaction token
-    snap.createTransactionToken(parameter)
-      .then((transactionToken) => {
-        // pass transaction token to frontend
-        res.status(200).json({
-          token: transactionToken,
-          clientKey: snap.apiConfig.clientKey
-        })
-      })
+    snap.createTransactionToken(parameter).then((transactionToken) => {
+      // pass transaction token to frontend
+      res.status(200).json({
+        token: transactionToken,
+        clientKey: snap.apiConfig.clientKey,
+      });
+    });
   }
 
   static async createRoom(req, res, next) {
-    const t = await sequelize.transaction();
     try {
       const {
         price,
@@ -71,14 +77,9 @@ class RoomController {
         status,
         UserId: +req.user.id,
         DestinationId: +DestinationId,
-      },
-        { transaction: t }
-      );
-      await Payment.create({ UserId, RoomId, paymentStatus: "pending", vaNumber: 0 }, { transaction: t })
-      await t.commit()
+      });
       res.status(201).json(room);
     } catch (error) {
-      await t.rollback()
       next(error);
     }
   }
@@ -214,6 +215,7 @@ class RoomController {
   }
 
   static async joinRoom(req, res, next) {
+    const t = await sequelize.transaction();
     try {
       const UserId = +req.user.id;
       const RoomId = +req.params.id;
@@ -223,15 +225,26 @@ class RoomController {
         },
       });
       if (alreadyJoin.length > 0) throw { name: "AlreadyJoin" };
-      await Participant.create({
-        UserId,
-        RoomId,
-      });
+      await Participant.create(
+        {
+          UserId,
+          RoomId,
+        },
+        { transaction: t }
+      );
+      await Payment.create(
+        { UserId, RoomId, paymentStatus: "pending", vaNumber: 0 },
+        { transaction: t }
+      );
+      await t.commit();
       res.json(true);
     } catch (error) {
+      await t.rollback();
       next(error);
     }
   }
+
+  static async callbackPayment(req, res, next) {}
 }
 
 module.exports = RoomController;
