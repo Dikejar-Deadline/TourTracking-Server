@@ -1,4 +1,4 @@
-const { Room, Destination, Participant } = require("../models");
+const { Payment, Room, Destination, Participant, sequelize } = require("../models");
 
 class RoomController {
   static async getRooms(req, res, next) {
@@ -19,7 +19,33 @@ class RoomController {
     }
   }
 
+  static async payment(req, res, next) {
+    let snap = new midtransClient.Snap({
+      isProduction: false,
+      serverKey: process.env.SECRETS_SERVER,
+      clientKey: process.env.SECRETS_CLIENT
+    });
+    let parameter = {
+      "transaction_details": {
+        "order_id": "order-id-node-" + Math.round((new Date()).getTime() / 1000),
+        "gross_amount": 200000
+      }, "credit_card": {
+        "secure": true
+      }
+    };
+    // create snap transaction token
+    snap.createTransactionToken(parameter)
+      .then((transactionToken) => {
+        // pass transaction token to frontend
+        res.status(200).json({
+          token: transactionToken,
+          clientKey: snap.apiConfig.clientKey
+        })
+      })
+  }
+
   static async createRoom(req, res, next) {
+    const t = await sequelize.transaction();
     try {
       const {
         price,
@@ -45,9 +71,14 @@ class RoomController {
         status,
         UserId: +req.user.id,
         DestinationId: +DestinationId,
-      });
+      },
+        { transaction: t }
+      );
+      await Payment.create({ UserId, RoomId, paymentStatus: "pending", vaNumber: 0 }, { transaction: t })
+      await t.commit()
       res.status(201).json(room);
     } catch (error) {
+      await t.rollback()
       next(error);
     }
   }
