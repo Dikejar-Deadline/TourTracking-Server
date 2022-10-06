@@ -84,6 +84,14 @@ const typeDefs = gql`
     Participants: [Participant]
   }
 
+  type DestinationDetail {
+    id: ID
+    name: String
+    description: String
+    imgUrl: String
+    Rooms: [Room]
+  }
+
   type RoomByDestination {
     id: ID
     name: String
@@ -93,17 +101,17 @@ const typeDefs = gql`
   }
 
   type Query {
-    login(email: String!, password: String!): Auth
     getUser: User
     users: [User]
     destinations: [Destination]
-    destinationId(id: ID!): Destination
+    destinationId(id: ID!): DestinationDetail
     rooms: [Room]
     roomById(id: ID!): RoomDetail
     roomByDestination(id: ID!): RoomByDestination
   }
 
   type Mutation {
+    login(email: String!, password: String!): Auth
     register(
       firstName: String
       lastName: String
@@ -156,24 +164,24 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    login: loginAction,
-    getUser: getUser,
-    users: getAllUser,
-    destinations: getDestinations,
-    destinationId: getDestionationId,
-    rooms: getAllRoom,
-    roomById: getRoomDetail,
+    getUser: getUser, // skip
+    users: getAllUser, // skip
+    destinations: getDestinations, // Done
+    destinationId: getDestionationId, // Done
+    rooms: getAllRoom, // Done
+    roomById: getRoomDetail, // Done
     roomByDestination: getRoomByDestination,
   },
   Mutation: {
-    register: registerAction,
-    createDestination: createDestination,
-    editDestination: updateDestinationId,
-    deleteDestination: deleteDestionationId,
-    createRoom: createRoom,
-    editRoom: editRoom,
-    deleteRoom: deleteRoom,
-    joinRoom: joinRoom,
+    login: loginAction, // Done
+    register: registerAction, // skip
+    createDestination: createDestination, // Done
+    editDestination: updateDestinationId, // Done
+    deleteDestination: deleteDestionationId, // Done
+    createRoom: createRoom, // Done
+    editRoom: editRoom, // Pending
+    deleteRoom: deleteRoom, // Pending
+    joinRoom: joinRoom, // Now
   },
 };
 

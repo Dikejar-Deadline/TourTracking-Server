@@ -1,4 +1,4 @@
-const { Destination } = require("../models");
+const { Destination, Room } = require("../models");
 
 class DestinationController {
   static async getDestinations(req, res, next) {
@@ -29,7 +29,16 @@ class DestinationController {
       const id = +req.params.id;
       if (!id) throw { name: "RequiredDestinationId" };
 
-      const destination = await Destination.findByPk(id);
+      const destination = await Destination.findByPk(id, {
+        include: [
+          {
+            model: Room,
+            attributes: {
+              exclude: ["createdAt", "updatedAt"],
+            },
+          },
+        ],
+      });
       res.status(200).json(destination);
     } catch (error) {
       next(error);
