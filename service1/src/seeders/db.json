@@ -1,0 +1,105 @@
+{
+  "destinations": [
+    {
+      "name": "Air Terjun Sendang Gile",
+      "description": "Sendang Gile berada di Desa Senaru, Bayan, Lombok Utara. Masih masuk dalam kawasan Taman Nasional Gunung Rinjani dan air terjun ini berasal dari mata air Gunung Rinjani yang alami dan sangat sejuk.",
+      "imgUrl": "https://raw.githubusercontent.com/Dikejar-Deadline/TourTracking-Server/images/images/ntb/Air-Terjun-Sendang-Gile.jpg"
+    },
+    {
+      "name": "Desa Sade",
+      "description": "Sade Village menjadi salah satu dusun tradisional yang cukup terkenal di Lombok. Desa suku Sasak yang memungkinkan pengunjung melihat secara dekat berbagai budaya dan kehidupan suku tersebut.",
+      "imgUrl": "https://raw.githubusercontent.com/Dikejar-Deadline/TourTracking-Server/images/images/ntb/Desa-Adat-Sade.jpg.jpg"
+    },
+    {
+      "name": "Gili Trawangan",
+      "description": "Pantai di Gili Trawangan menjadi salah satu lokasi paling indah untuk menikmati matahari terbenam, scuba diving, snorkeling, berselancar, berkuda dan lainnya.",
+      "imgUrl": "https://raw.githubusercontent.com/Dikejar-Deadline/TourTracking-Server/images/images/ntb/gili-trawangan.jpg"
+    },
+    {
+      "name": "Senaru Crater Rim",
+      "description": "Pemandangan matahari terbenam dan asap dari Gunung Baru Jari menjadi dua pemandangan terindah yang membuat para pendaki banyak menginap di kawasan tersebut.",
+      "imgUrl": "https://raw.githubusercontent.com/Dikejar-Deadline/TourTracking-Server/images/images/ntb/Senaru-Crater-Rim.jpg.jpg"
+    },
+    {
+      "name": "Gunung Rinjani",
+      "description": "Gunung Rinjani merupakan gunung berapi dengan ketinggian mencapai lebih dari 3.726 mdpl dan menjadi salah satu gunung favorit para pendaki",
+      "imgUrl": "https://raw.githubusercontent.com/Dikejar-Deadline/TourTracking-Server/images/images/ntb/Gunung-Rinjani.jpg.jpg"
+    },
+    {
+      "name": "Bukit Tunak",
+      "description": "Kawasan wisata Gunung Tunak berada dekat dengan Kawasan Pariwisata Mandalika. Di tempat ini pengunjung bisa menikmati pemandangan gunung, pantai, camping, penangkaran kupu-kupu, trail-road, dan lainnya.",
+      "imgUrl": "https://raw.githubusercontent.com/Dikejar-Deadline/TourTracking-Server/images/images/ntb/Gunung-Tunak.jpg.jpg"
+    },
+    {
+      "name": "Pura Gunung Kawi",
+      "description": "Keunikan dari pura ini adalah candinya terbuat dari pahatan dinding tebing Sungai Pakerisan. Tak hanya itu saja, lokasinya pun akan membuat Anda tenang dan sangat asri.",
+      "imgUrl": "https://raw.githubusercontent.com/Dikejar-Deadline/TourTracking-Server/images/images/bali/Candi-Tebing-Gunung-Kawi.jpg"
+    },
+    {
+      "name": "Danau Beratan Bali",
+      "description": "Danau yang berada di daerah pegunungan ini akan memiliki daya tarik tersendiri. Pasalnya, Anda akan melihat Pura Ulun Danu yang berada tepat di tengah tengah danau.",
+      "imgUrl": "https://raw.githubusercontent.com/Dikejar-Deadline/TourTracking-Server/images/images/bali/Danau-Beratan-Bedugul.jpg"
+    },
+    {
+      "name": "Goa Gajah",
+      "description": "Goa Gajah merupakan tempat suci yang dijadikan pusat keagamaan hingga sekarang. Situs satu ini umumnya ramai dikunjungi oleh wisatawan yang ingin melihat keunikan dari goa yang memiliki relief kepala Leak ini.",
+      "imgUrl": "https://raw.githubusercontent.com/Dikejar-Deadline/TourTracking-Server/images/images/bali/Goa-Gajah.jpg"
+    },
+    {
+      "name": "Pantai Nusa Dua",
+      "description": "Dikenal sebagai kawasan elite, maka Anda bisa menghabiskan waktu liburan dengan berkunjung ke Pantai Nusa Dua. Banyaknya nyiur melambai yang ada disini akan memiliki pemandangan indah tersendiri.",
+      "imgUrl": "https://raw.githubusercontent.com/Dikejar-Deadline/TourTracking-Server/images/images/bali/Pantai-Nusa-Dua.jpg"
+    },
+    {
+      "name": "Pantai Uluwatu",
+      "description": "Pantai Uluwatu memiliki keunikan dimana Untuk bisa sampai ke pantai ini, harus menuruni anak tangga yang cukup sempit. Kemudian, akan langsung disambut dengan suara ombak yang menenangkan dan bentang alam yang menakjubkan.",
+      "imgUrl": "https://raw.githubusercontent.com/Dikejar-Deadline/TourTracking-Server/images/images/bali/Pantai-Uluwatu.jpg"
+    },
+    {
+      "name": "Pura Tanah Lot",
+      "description": "Pura yang berada di atas batu karang dan menjorok ke laut menjadikan pemandangannya sangat indah.",
+      "imgUrl": "https://raw.githubusercontent.com/Dikejar-Deadline/TourTracking-Server/images/images/bali/Tanah-Lot.jpg"
+    }
+  ],
+  "rooms": [
+    {
+      "price": 1500000,
+      "accountNumber": 123,
+      "accountName": "Lazarus",
+      "maxParticipant": 10,
+      "minParticipant": 5,
+      "schedule": "2022-12-12 00:00:00+07",
+      "dropPoint": "Sumbawa",
+      "duration": 3,
+      "status": "On Process",
+      "UserId": 1,
+      "DestinationId": 5
+    },
+    {
+      "price": 1500000,
+      "accountNumber": 456,
+      "accountName": "Ardiansyah",
+      "maxParticipant": 10,
+      "minParticipant": 5,
+      "schedule": "2022-12-25 00:00:00+07",
+      "dropPoint": "Lombok Tengah",
+      "duration": 2,
+      "status": "On Process",
+      "UserId": 2,
+      "DestinationId": 10
+    },
+    {
+      "price": 1000000,
+      "accountNumber": 789,
+      "accountName": "Linda",
+      "maxParticipant": 10,
+      "minParticipant": 5,
+      "schedule": "2022-12-29 00:00:00+07",
+      "dropPoint": "Maluk",
+      "duration": 2,
+      "status": "On Process",
+      "UserId": 3,
+      "DestinationId": 3
+    }
+  ]
+}

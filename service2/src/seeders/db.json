@@ -1,0 +1,37 @@
+{
+  "users": [
+    {
+      "firstName": "Lazarus",
+      "lastName": "-",
+      "username": "Lazminutes",
+      "email": "lazminutes@gmail.com",
+      "picture": "https://assets.pikiran-rakyat.com/crop/0x0:1080x1048/x/photo/2022/05/30/1120793232.jpg",
+      "phoneNumber": "081234567891",
+      "address": "Sumbawa",
+      "password": "lazminutes",
+      "role": "user"
+    },
+    {
+      "firstName": "Ardiansyah",
+      "lastName": "Putra",
+      "username": "Ardiansyah",
+      "email": "Ardiansyah@gmail.com",
+      "picture": "https://awsimages.detik.net.id/community/media/visual/2022/01/28/lee-min-ho_43.jpeg?w=700&q=90",
+      "phoneNumber": "081245789321",
+      "address": "Sumbawa",
+      "password": "ardiansyah",
+      "role": "user"
+    },
+    {
+      "firstName": "Linda",
+      "lastName": "-",
+      "username": "ndaindaa",
+      "email": "linda@gmail.com",
+      "picture": "https://cdn.asiatatler.com/generationt/i/ap/2019/06/19135555-lalisa-manoban-afp_cover_1331x1999.jpg",
+      "phoneNumber": "082340987654",
+      "address": "Maluk",
+      "password": "linda",
+      "role": "user"
+    }
+  ]
+}
